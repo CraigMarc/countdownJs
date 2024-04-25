@@ -1,4 +1,7 @@
 import { useState, useRef, useEffect } from "react";
+import buzzer from './assets/buzzer.wav'
+let audio = new Audio(buzzer);
+
  
 const CountDown = () => {
    
@@ -8,7 +11,7 @@ const CountDown = () => {
     const Ref = useRef(null);
  
     // The state for our timer
-    const [timer, setTimer] = useState("00:00");
+    const [timer, setTimer] = useState("00:10");
     const [running, setRunning] = useState(false)
     const [button, setButton] = useState("Start")
  
@@ -47,6 +50,12 @@ const CountDown = () => {
                 ":" +
                 (seconds > 9 ? seconds : "0" + seconds)
             );
+        }
+        
+        if (total == 0) {
+            setButton("Reset")
+            audio.play();
+            console.log('the end')
         }
     };
  
@@ -103,9 +112,12 @@ const CountDown = () => {
         else { 
             setRunning(true)
             setButton("Start")
+            
         }
         clearTimer(getDeadTime());
     };
+
+    
  
     return (
         <div
