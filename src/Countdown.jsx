@@ -9,8 +9,8 @@ const CountDown = () => {
  
     // The state for our timer
     const [timer, setTimer] = useState("00:00");
-
-
+    const [running, setRunning] = useState(false)
+    const [button, setButton] = useState("Start")
  
    //const getTimeRemaining = (time) => {
     function getTimeRemaining(time) {
@@ -64,6 +64,11 @@ const CountDown = () => {
             startTimer(time);
         }, 1000);
         Ref.current = id;
+
+        //stop timer
+        if (running == false){
+            clearInterval(id)
+        }
     };
  
     const getDeadTime = () => {
@@ -91,6 +96,14 @@ const CountDown = () => {
     // button first we create function to be called
     // by the button
     const onClickReset = () => {
+        if (running == true) {
+            setRunning(false)
+           setButton("Stop")
+        }
+        else { 
+            setRunning(true)
+            setButton("Start")
+        }
         clearTimer(getDeadTime());
     };
  
@@ -102,7 +115,7 @@ const CountDown = () => {
             </h1>
             <h3>Countdown Timer Using React JS</h3>
             <h2>{timer}</h2>
-            <button onClick={onClickReset}>Reset</button>
+            <button onClick={onClickReset}>{button}</button>
         </div>
     );
 };
