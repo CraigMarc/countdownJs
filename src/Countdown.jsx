@@ -54,6 +54,7 @@ const CountDown = () => {
         
         if (total == 0) {
             setButton("Reset")
+            audio.currentTime = 0
             audio.play();
             console.log('the end')
         }
@@ -114,6 +115,11 @@ const CountDown = () => {
             setButton("Start")
             
         }
+        if (button == "Reset") {
+            audio.pause()
+           
+        }
+
         clearTimer(getDeadTime());
     };
 
