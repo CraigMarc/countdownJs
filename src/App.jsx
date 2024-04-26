@@ -37,11 +37,27 @@ function App() {
 
 function App() {
 
+
+  const [timer, setTimer] = useState("01:00");
+  const [running, setRunning] = useState(false)
+  const [button, setButton] = useState("Start")
+  const [startTime, setStartTime] = useState(60)
+
   return (
-    <CountDown />
+    <CountDown
+    timer={timer}
+    setTimer={setTimer}
+    running={running}
+    setRunning={setRunning}
+    button={button}
+    setButton={setButton}
+   
+
+    />
   )
 
 }
+
 
 
       

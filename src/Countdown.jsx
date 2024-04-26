@@ -3,17 +3,28 @@ import buzzer from './assets/buzzer.wav'
 let audio = new Audio(buzzer);
 
  
-const CountDown = () => {
+const CountDown = (props) => {
+
+    const {
+
+        timer,
+        setTimer,
+        running,
+        setRunning,
+        button,
+        setButton,
+       
+
+    } = props;
+
+   
    
     // We need ref in this, because we are dealing
     // with JS setInterval to keep track of it and
     // stop it when needed
     const Ref = useRef(null);
- 
-    // The state for our timer
-    const [timer, setTimer] = useState("00:10");
-    const [running, setRunning] = useState(false)
-    const [button, setButton] = useState("Start")
+    const startTime = useRef(60)
+    
  
    //const getTimeRemaining = (time) => {
     function getTimeRemaining(time) {
@@ -23,9 +34,7 @@ const CountDown = () => {
         const minutes = Math.floor(
             (total / 1000 / 60) % 60
         );
-        /*const hours = Math.floor(
-            (total / 1000 / 60 / 60) % 24
-        );*/
+      
         return {
             total,
             minutes,
@@ -56,7 +65,7 @@ const CountDown = () => {
             setButton("Reset")
             audio.currentTime = 0
             audio.play();
-            console.log('the end')
+           
         }
     };
  
@@ -64,8 +73,12 @@ const CountDown = () => {
         // If you adjust it you should also need to
         // adjust the Endtime formula we are about
         // to code next
-        setTimer("00:10");
- 
+        if (startTime.current/60 > 9) {
+        setTimer(startTime.current/60 + ":00");
+        }
+        else {
+            setTimer("0" + startTime.current/60 + ":00");
+        }
         // If you try to remove this line the
         // updating of timer Variable will be
         // after 1000ms or 1sec
@@ -87,7 +100,7 @@ const CountDown = () => {
  
         // This is where you need to adjust if
         // you entend to add more time
-        deadline.setSeconds(deadline.getSeconds() + 10);
+        deadline.setSeconds(deadline.getSeconds() + startTime.current);
         return deadline;
     };
  
@@ -123,7 +136,23 @@ const CountDown = () => {
         clearTimer(getDeadTime());
     };
 
-    
+    const onClickIncrease = () => {
+        
+        startTime.current = startTime.current + 60
+       
+       let minutes = startTime.current / 60
+       if (startTime.current/60 > 9){
+       setTimer(minutes + ":00")
+       }
+       else {
+        setTimer("0" + minutes + ":00")
+       }
+    };
+
+    const onClickDecrease = () => {
+       
+    };
+
  
     return (
         <div
@@ -134,6 +163,8 @@ const CountDown = () => {
             <h3>Countdown Timer Using React JS</h3>
             <h2>{timer}</h2>
             <button onClick={onClickReset}>{button}</button>
+            <button onClick={onClickIncrease}>increase</button>
+            <button onClick={onClickDecrease}>decrease</button>
         </div>
     );
 };
