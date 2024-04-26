@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import buzzer from './assets/buzzer.wav'
+
 let audio = new Audio(buzzer);
 
 
@@ -28,6 +29,7 @@ const CountDown = (props) => {
 
     //const getTimeRemaining = (time) => {
     function getTimeRemaining(time) {
+       
         const total =
             Date.parse(time) - Date.parse(new Date());
         const seconds = Math.floor((total / 1000) % 60);
@@ -97,35 +99,25 @@ const CountDown = (props) => {
     const getDeadTime = () => {
 
         let deadline = new Date();
-
+        
         // This is where you need to adjust if
         // you entend to add more time
         deadline.setSeconds(deadline.getSeconds() + startTime.current);
         return deadline;
     };
 
-    // We can use useEffect so that when the component
-    // mount the timer will start as soon as possible
-
-    // We put empty array to act as componentDid
-    // mount only
-    /*
-    useEffect(() => {
-        clearTimer(getDeadTime());
-    }, []);
- */
-    // Another way to call the clearTimer() to start
-    // the countdown is via action event from the
-    // button first we create function to be called
-    // by the button
+   
     const onClickReset = () => {
+       
         if (running == true) {
             setRunning(false)
             setButton("Stop")
+          
         }
         else {
             setRunning(true)
             setButton("Start")
+            
 
         }
         if (button == "Reset") {
